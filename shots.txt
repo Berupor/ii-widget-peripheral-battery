@@ -1,0 +1,7 @@
+# README shots, rendered by the extensions fork:
+#   tests/widget-shots.sh -x ~/.config/illogical-impulse/widgets/peripheralBattery
+# Both run off demo/, so no hardware is involved and the pictures come out the same
+# on any machine. The edge scene is left out on purpose - it is for looking at while
+# working: widget-shots.sh -x . -- "-f demo/DemoDevicesEdge.qml -n edge -g 420x560"
+-f demo/DemoBar.qml -n bar -g 200x40 -H bar
+-f demo/DemoDevices.qml -n devices -g 420x250 -H sidebar
