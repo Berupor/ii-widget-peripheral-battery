@@ -4,7 +4,7 @@ Battery of mice, keyboards, headsets and whatever else the desk is full of: a
 circle per device in the bar, cards in the right sidebar, a notification when one
 of them runs flat. Reads UPower, so anything your system already knows about shows
 up. A widget for the
-[illogical-impulse extensions fork](https://github.com/Berupor/dots-hyprland).
+[illogical-impulse extensions fork](https://github.com/Berupor/dots-hyprland-extensions).
 
 | In the bar | In the sidebar |
 |---|---|
