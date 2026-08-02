@@ -6,9 +6,9 @@ WidgetManifest {
     name: Translation.tr("Peripheral battery")
     description: Translation.tr("Battery of mice, keyboards, headsets and other bluetooth stuff")
     icon: "battery_android_full"
-    version: "1.0"
+    version: "1.1"
     author: "Berupor"
-    minShellVersion: "1.0"
+    minShellVersion: "1.3" // The barGauge slot
     options: [
         { "key": "showAll", "type": "switch", "icon": "devices_other", "label": Translation.tr("Every device, not just the emptiest one"), "default": true },
         { "key": "barIndicator", "type": "switch", "icon": "toolbar", "label": Translation.tr("Indicator in the top bar"), "default": true },
@@ -16,8 +16,9 @@ WidgetManifest {
     ]
     slots: {
         const s = {};
+        // Next to the resource circles: it is drawn as one of them
         if (optionValue("barIndicator"))
-            s.barIndicator = "PeripheralBatteryIndicator.qml";
+            s.barGauge = "PeripheralBatteryIndicator.qml";
         if (optionValue("sidebarTab"))
             s.sidebarRightTab = { "name": Translation.tr("Devices"), "icon": "battery_android_full", "path": "PeripheralBatteryTab.qml" };
         return s;
