@@ -19,11 +19,13 @@ Item {
     readonly property bool single: root.devices.length === 1
     readonly property int cardSpacing: 8
     readonly property int cardPadding: root.single ? 20 : 12
+    readonly property int numberSize: root.single ? Appearance.font.pixelSize.hugeass : Appearance.font.pixelSize.huge
+    readonly property int minFill: root.cardPadding * 2 + Appearance.font.pixelSize.hugeass
 
     PagePlaceholder {
         shown: root.devices.length === 0
         icon: "mouse"
-        description: Translation.tr("No devices with a battery")
+        description: Translation.tr("No devices with a battery\nPair a bluetooth mouse, keyboard or headset")
         shape: MaterialShape.Shape.Ghostish
         descriptionHorizontalAlignment: Text.AlignHCenter
     }
@@ -37,7 +39,7 @@ Item {
             rightMargin: 10
             bottomMargin: 10
         }
-        radius: Appearance.rounding.large
+        radius: Appearance.rounding.small
         color: Appearance.colors.colLayer2
 
         StyledFlickable {
@@ -68,7 +70,7 @@ Item {
                         Layout.fillWidth: true
                         Layout.fillHeight: root.single
                         implicitHeight: root.cardPadding * 2 + cardRow.implicitHeight
-                        radius: Appearance.rounding.normal
+                        radius: Appearance.rounding.verysmall
                         color: Appearance.colors.colLayer3
 
                         // Charge as the card's own fill, like Android's battery widget
@@ -78,7 +80,7 @@ Item {
                                 top: parent.top
                                 bottom: parent.bottom
                             }
-                            width: Math.max(parent.radius * 2, parent.width * card.modelData.percentage)
+                            width: Math.max(root.minFill, parent.width * card.modelData.percentage)
                             radius: parent.radius
                             color: card.low ? Appearance.colors.colErrorContainer : Appearance.colors.colSecondaryContainer
 
@@ -101,8 +103,8 @@ Item {
                             MaterialSymbol {
                                 Layout.alignment: Qt.AlignVCenter
                                 text: PeripheralBattery.iconFor(card.modelData.type)
-                                iconSize: root.single ? 36 : 26
-                                color: Appearance.colors.colOnLayer2
+                                iconSize: Appearance.font.pixelSize.hugeass
+                                color: Appearance.colors.colOnLayer3
                             }
 
                             ColumnLayout {
@@ -116,7 +118,7 @@ Item {
                                     wrapMode: root.single ? Text.Wrap : Text.NoWrap
                                     maximumLineCount: root.single ? 2 : 1
                                     font.pixelSize: root.single ? Appearance.font.pixelSize.normal : Appearance.font.pixelSize.small
-                                    color: Appearance.colors.colOnLayer2
+                                    color: Appearance.colors.colOnLayer3
                                     text: PeripheralBattery.nameFor(card.modelData)
                                 }
 
@@ -126,7 +128,7 @@ Item {
                                     visible: detailText.text.length > 0
                                     elide: Text.ElideRight
                                     font.pixelSize: root.single ? Appearance.font.pixelSize.smallie : Appearance.font.pixelSize.smaller
-                                    color: Appearance.colors.colOnLayer1
+                                    color: Appearance.colors.colOnLayer3
                                     text: PeripheralBattery.detailFor(card.modelData)
                                 }
                             }
@@ -136,14 +138,14 @@ Item {
                                 visible: card.charging
                                 fill: 1
                                 text: "bolt"
-                                iconSize: root.single ? 30 : Appearance.font.pixelSize.hugeass
-                                color: Appearance.colors.colOnLayer2
+                                iconSize: root.numberSize
+                                color: Appearance.colors.colOnLayer3
                             }
 
                             StyledText {
                                 Layout.alignment: Qt.AlignVCenter
-                                font.pixelSize: root.single ? 32 : Appearance.font.pixelSize.huge
-                                color: Appearance.colors.colOnLayer2
+                                font.pixelSize: root.numberSize
+                                color: Appearance.colors.colOnLayer3
                                 text: `${Math.round(card.modelData.percentage * 100)}%`
                             }
                         }

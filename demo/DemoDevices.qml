@@ -1,9 +1,10 @@
 //@ probe peripheralBattery -g 420x520
 /**
  * The devices tab and the bar indicator drawn from made-up peripherals: the views
- * take their list as a property, so no hardware and nothing stubbed. `-p scenario=edge`
- * is the pile that has looked wrong - empty and full, charging under the low
- * threshold, a name too long for its card, a device UPower knows nothing about.
+ * take their list as a property, so no hardware and nothing stubbed. `-p scenario=empty`
+ * and `-p scenario=single` are the two ends. `-p scenario=edge` is the pile that has
+ * looked wrong - empty and full, charging under the low threshold, a name too long
+ * for its card, a device UPower knows nothing about.
  */
 import ".." // The widget's own types and its PeripheralBattery singleton, via its qmldir
 import Quickshell.Services.UPower
@@ -30,6 +31,12 @@ Item {
 
     // Emptiest first, the order the service hands over
     readonly property var sets: ({
+        "empty": [],
+        "single": [
+            root.dev(UPowerDeviceType.Mouse, "MX Master 3S", 0.62, UPowerDeviceState.Discharging, {
+                "timeToEmpty": 9000
+            })
+        ],
         "plain": [
             root.dev(UPowerDeviceType.Keyboard, "MX Keys", 0.45, UPowerDeviceState.Discharging),
             root.dev(UPowerDeviceType.Mouse, "MX Master 3S", 0.62, UPowerDeviceState.Discharging),
@@ -74,7 +81,7 @@ Item {
             {
                 "name": "a lone device takes the whole panel",
                 "got": [tab.single, lone.single],
-                "want": [false, true]
+                "want": [root.devices.length === 1, root.devices.length > 0]
             },
             {
                 "name": "empty counts as low, charging never does",
@@ -98,8 +105,8 @@ Item {
             },
             {
                 "name": "showAll off keeps the emptiest one alone",
-                "got": [bar.shownDevices.length, narrow.shownDevices.length, narrow.shownDevices[0].model],
-                "want": [root.devices.length, 1, root.devices[0].model]
+                "got": [bar.shownDevices.length, narrow.shownDevices.length, narrow.shownDevices[0]?.model],
+                "want": [root.devices.length, Math.min(1, root.devices.length), root.devices[0]?.model]
             }
         ];
     }
